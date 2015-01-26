@@ -8,7 +8,7 @@ typedef PtrToNode List;
 typedef PtrToNode Position;
 
 List CreateList();
-List Init(List L);
+List InitEmpty();
 List MakeEmpty(List L);
 int IsEmpty(List L);
 int IsLast(Position n, List L);
@@ -23,9 +23,9 @@ void PrintList(List L);
 void PrintList_Element(List L, int n);
 void PrintLots(List L, List P);
 void ExchangeElement_WithNext(ElementType x, List L);
-void ExchangePosition_WithNext(ElementType x, List L);
+void ExchangePosition_WithNext(Position x, List L);
 void Sort(List L);
 void Intersect(List L1, List L2, List Result);
-void Union(List L1, List L2, List Result);
+List Union(List L1, List L2);
 
 #endif

@@ -361,31 +361,44 @@ void Intersect(List L1, List L2, List Result)
 	}
 //	return Result;
 }
-void Union(List L1, List L2, List Result)
+List Union(List L1, List L2)
 {
 	//	List Result;
-	Position L1Pos, L2Pos, ResultPos;
-	L1Pos = First(L1);
-	L2Pos = First(L2);
-	//	Result = MakeEmpty(Result);
-	ResultPos = Result;
-	while(L1Pos!=NULL && L2Pos!=NULL)
+		List temp , temp2;
+	List intersect;
+	intersect = InitEmpty();
+	Intersect(L1, L2, intersect);
+//	Result = L1;
+//	temp = L2->Next;
+	temp2 = intersect->Next;
+	while(temp2 != NULL)
 	{
-		if(L1Pos->Element > L2Pos->Element)
+		temp = L2->Next;
+		while(temp != NULL)
 		{
-			L2Pos = L2Pos->Next;
+			if(temp->Element == temp2->Element)
+			{
+				Delete(temp2->Element, L2);
+			}
+			temp = temp->Next;
+
 		}
-		else if(L1Pos->Element < L2Pos->Element)
-		{
-			L1Pos = L1Pos->Next;
-		}
-		else
-		{
-			Insert(L1Pos->Element,Result, ResultPos);
-			ResultPos = ResultPos->Next;
-			L1Pos = L1Pos->Next;
-			L2Pos = L2Pos->Next;
-		}
+
+//		temp = temp->Next;
+		temp2 = temp2->Next;
 	}
-	//	return Result;
+	temp = L1;
+	while(temp->Next != NULL)
+	{
+		temp = temp->Next;
+	}
+	temp2 = temp;
+	temp = L2->Next;
+	while(temp != NULL)
+	{
+		Insert(temp->Element, L1, temp2);
+		temp = temp->Next;
+		temp2 = temp2->Next;
+	}
+	return L1; 
 }

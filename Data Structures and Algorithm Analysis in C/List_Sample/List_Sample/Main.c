@@ -18,7 +18,8 @@ void main()
 	ExchangePosition_WithNext(P, L); 
 	*/
 //	Sort(L);
-    Intersect(L, P, I);
+ //   Intersect(L, P, I);
+	I = Union(L, P);
 	PrintList(I);
 }
 
