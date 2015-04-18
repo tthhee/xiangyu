@@ -25,7 +25,9 @@ void PrintLots(List L, List P);
 void ExchangeElement_WithNext(ElementType x, List L);
 void ExchangePosition_WithNext(Position x, List L);
 void Sort(List L);
-void Intersect(List L1, List L2, List Result);
+List Intersect(List L1, List L2);
 List Union(List L1, List L2);
+List Polynominal(int n);
+List PolynominalExp(List L, int n, int p);
 
 #endif

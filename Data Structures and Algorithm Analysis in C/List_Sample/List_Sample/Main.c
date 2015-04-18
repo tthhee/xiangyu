@@ -4,12 +4,11 @@
 void main()
 {
 	List L;
-	List P, I;
+
 
 //	ElementType x;
-	L = CreateList();
-	P = CreateList();
-	I = InitEmpty();
+	L = Polynominal(3);
+
 //	PrintList(L);
 /*	PrintList(L);
 	printf("enter the element you want to exchange\n");
@@ -18,8 +17,8 @@ void main()
 	ExchangePosition_WithNext(P, L); 
 	*/
 //	Sort(L);
- //   Intersect(L, P, I);
-	I = Union(L, P);
-	PrintList(I);
+ 
+//	I = Union(L, P);
+	PrintList(L);
 }
 

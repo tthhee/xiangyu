@@ -290,37 +290,7 @@ void Sort(List L)
 		Q = Q->Next;
 	}
 }
-/*
-List Intersect(List L, List P)
-{
-	List temp1, temp2, temp;
-	List head;
-	head = L;
-	temp1 = L->Next;
-	temp2 = P->Next;
-	while(temp1 != NULL && temp2 != NULL)
-	{
-		if(temp1->Element != temp2->Element)
-		{
-			temp = temp1->Next;
-			temp2 = temp2->Next;
-			Delete(temp1->Element, L);
-		//	if(temp != NULL)
-				temp1 = temp;
-		}
-		else
-		{
-			temp1 = temp1->Next;
-			temp2 = temp2->Next;
-		}
-		if(temp2 == NULL)
-		{
-			temp1 = NULL;
-		}
-	}
-	return head;
-}
-*/
+
 Position First(List L)
 {
 	if(L->Next==NULL)
@@ -333,13 +303,13 @@ Position Header(List L)
 {
 	return L;
 }
-void Intersect(List L1, List L2, List Result)
+List Intersect(List L1, List L2)
 {
-//	List Result;
+	List Result;
 	Position L1Pos, L2Pos, ResultPos;
 	L1Pos = First(L1);
 	L2Pos = First(L2);
-//	Result = MakeEmpty(Result);
+	Result =InitEmpty();
 	ResultPos = Result;
 	while(L1Pos!=NULL && L2Pos!=NULL)
 	{
@@ -359,46 +329,93 @@ void Intersect(List L1, List L2, List Result)
 			L2Pos = L2Pos->Next;
 		}
 	}
-//	return Result;
+	return Result;
 }
+/*************************************************
+Description:
+	Union()求两个链表L1， L2元素的并集。(注意：这里两个链表的元素必须是经过从小到大排序的)
+	函数返回并集结果。
+	注意：函数中的 ResultPos = Result;因为插入Insert()函数是在Pos位置的后面插入，所以对于一个空链表
+		  要想将元素插入到第一个位置，则Pos应为链表的head.
+**************************************************/
 List Union(List L1, List L2)
 {
-	//	List Result;
-		List temp , temp2;
-	List intersect;
-	intersect = InitEmpty();
-	Intersect(L1, L2, intersect);
-//	Result = L1;
-//	temp = L2->Next;
-	temp2 = intersect->Next;
-	while(temp2 != NULL)
+	List Result;
+	ElementType ResultElement;
+	List L1Pos, L2Pos, ResultPos;
+	Result = InitEmpty();
+	L1Pos = L1->Next;
+	L2Pos = L2->Next;
+	ResultPos = Result;
+	while(L1Pos != NULL && L2Pos != NULL)
 	{
-		temp = L2->Next;
-		while(temp != NULL)
+		if(L1Pos->Element < L2Pos->Element)
 		{
-			if(temp->Element == temp2->Element)
-			{
-				Delete(temp2->Element, L2);
-			}
-			temp = temp->Next;
+			ResultElement = L1Pos->Element;
+			L1Pos = L1Pos->Next;
+		}
+		else if(L2Pos->Element < L1Pos->Element)
+		{
+			ResultElement = L2Pos->Element;
+			L2Pos = L2Pos->Next;
+		}
+		else
+		{
+			ResultElement = L1Pos->Element;
+			L1Pos = L1Pos->Next;
+			L2Pos = L2Pos->Next;
 
 		}
+		Insert(ResultElement, Result, ResultPos);
+		ResultPos = ResultPos->Next;
+	}
+	while(L1Pos != NULL)
+	{
+		Insert(L1Pos->Element, Result, ResultPos);
+		L1Pos = L1Pos->Next;
+		ResultPos = ResultPos->Next;
+	}
+	while(L2Pos != NULL)
+	{
+		Insert(L2Pos->Element, Result, ResultPos);
+		L2Pos = L2Pos->Next;
+		ResultPos = ResultPos->Next;
+	}
+	return Result;	
+}
 
-//		temp = temp->Next;
-		temp2 = temp2->Next;
-	}
-	temp = L1;
-	while(temp->Next != NULL)
+/************************************************
+Description:
+	输入n次多项式，按照次数从低到高依次输入各项系数
+	系数存储在链表中
+*************************************************/
+List Polynominal(int n)
+{
+	List L;
+	List LPos;
+	int a;
+	int i;
+	L = InitEmpty();
+	LPos = L;
+	printf("%d次多项式各项系数:\n", n);
+	for(i=0; i<=n; i++)
 	{
-		temp = temp->Next;
+
+		printf("%d次项系数: ", i);
+		scanf("%d", &a);
+		Insert(a,L,LPos);
 	}
-	temp2 = temp;
-	temp = L2->Next;
-	while(temp != NULL)
-	{
-		Insert(temp->Element, L1, temp2);
-		temp = temp->Next;
-		temp2 = temp2->Next;
-	}
-	return L1; 
+	return L;
+}
+/*****************************************
+Description:
+	未实现
+*****************************************/
+List PolynominalExp(List L, int n, int p)
+{
+	List Result;
+	List LPos, ResultPos;
+	int i, j;
+	Result = InitEmpty();
+
 }
