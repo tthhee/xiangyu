@@ -76,9 +76,11 @@
   <ItemGroup>
     <ClCompile Include="List_Sample.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="stack.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List_Sample.h" />
+    <ClInclude Include="Stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
