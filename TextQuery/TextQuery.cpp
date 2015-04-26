@@ -36,7 +36,14 @@ QueryResult TextQuery::query(const string& word) const
 
 	
 }
-
+QueryResult::QueryResult(const QueryResult& s)
+{
+	sought = s.sought;
+	file = make_shared<vector<string>>();
+	copy(s.file->begin(), s.file->end(), file->begin());
+	lines = make_shared<set<line_no>>();
+	copy(s.lines->begin(), s.lines->end(), lines->begin());
+}
 ostream& print(ostream &os, const QueryResult& qr)
 {
 	os << qr.sought << " occurs " << qr.lines->size()

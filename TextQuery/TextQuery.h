@@ -6,6 +6,7 @@
 #include <fstream>
 #include <memory>
 #include <sstream>
+#include <algorithm>
 using namespace std;
 using line_no = vector<string>::size_type;
 class QueryResult;
@@ -29,6 +30,7 @@ private:
 	shared_ptr<set<line_no>> lines;   //指向行号的指针
 public:
 	QueryResult(string s, shared_ptr<vector<string>> p, shared_ptr<set<line_no>> l):sought(s), file(p), lines(l){}
+	QueryResult(const QueryResult& s);
 	friend ostream& print(ostream&, const QueryResult&);
 
 
