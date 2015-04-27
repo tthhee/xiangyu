@@ -1,26 +1,46 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 //定义行为像值的类
 class HasPtr
 {
 private:
-	int i;
 	string* ps;
+	int i;
+	
 public:
-	HasPtr(const string& s = string()): 
-		ps(new string(s)), i(0){}
-	HasPtr(HasPtr& s):
+	HasPtr(const string& s = string(), int a = 0): 
+		ps(new string(s)), i(a){}
+	HasPtr(const HasPtr& s):
 		ps(new string(*s.ps)), i(s.i){}
 	HasPtr& operator=(const HasPtr& p);
+    friend bool lessthan(const HasPtr& s1, const HasPtr& s2);
+	friend ostream& operator<<(ostream& os, const HasPtr& P);
+	friend void swap(HasPtr& , HasPtr&);
 	~HasPtr()
 	{
 		delete ps;
 	}
 };
-
+bool lessthan(const HasPtr& s1, const HasPtr& s2)
+{
+	if(s1.i < s2.i)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+ostream& operator<<(ostream& os, const HasPtr& p)
+{
+	os << *p.ps << " " << p.i;
+}
 HasPtr& HasPtr::operator=(const HasPtr& p)
 {
 	i = p.i;
@@ -30,6 +50,13 @@ HasPtr& HasPtr::operator=(const HasPtr& p)
 	return *this;
 }
 
+inline void swap(HasPtr& lsh, HasPtr& rsh)
+{
+	using std::swap;
+	swap(lsh.ps, rsh.ps);
+	swap(lsh.i, rsh.i);
+	cout << "using swap()" << endl;
+}
 //定义行为像指针的类
 class PHasPtr
 {
@@ -104,5 +131,21 @@ public:
 };
 int main()
 {
+	HasPtr a("xiangyu", 2);
+	HasPtr b("liuchang", 1);
+	HasPtr c("liuzheng", 3);
+	swap(a, b);
+	cout << "a: " << a << endl;
+	cout << "b: " << b << endl;
+	vector<HasPtr> HasVec;
+	HasVec.push_back(a);
+	HasVec.push_back(b);
+	HasVec.push_back(c);
+	sort(HasVec.begin(), HasVec.end(), lessthan);
+	for(auto it : HasVec)
+	{
+		cout << it << endl;
+	}
+
 	return 0;
 }
