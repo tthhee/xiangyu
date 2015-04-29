@@ -99,8 +99,6 @@ void swap(Message& m1, Message& m2)
 	m1.add_to_Folders(m2);
 	m2.add_to_Folders(m1);
 	swap(m1.folders, m2.folders);
-
-
 }
 int main()
 {
