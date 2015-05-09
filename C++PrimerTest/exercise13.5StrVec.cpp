@@ -22,7 +22,7 @@ void StrVec::free()
 	{
 		// for(auto p = firstfree; p!=elements;)
 		// 	alloc.destroy(--p);
-		for_each(elements, firstfree, [this](string& str){alloc.destroy(&str);});
+		for_each(elements, firstfree, [this](string& str){alloc.destroy(&str);});  //for_each这里传递的是迭代器指向的内容而不是指针
 		alloc.deallocate(elements, cap-elements);
 	}
 }
