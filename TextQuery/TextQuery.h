@@ -31,6 +31,19 @@ private:
 public:
 	QueryResult(string s, shared_ptr<vector<string>> p, shared_ptr<set<line_no>> l):sought(s), file(p), lines(l){}
 	QueryResult(const QueryResult& s);
+	QueryResult& operator=(const QueryResult&);
+	shared_ptr<vector<string>> get_file()
+	{
+		return file;
+	}
+	set<line_no>::iterator begin()
+	{
+		return lines->begin();
+	}
+	set<line_no>::iterator end()
+	{
+		return lines->end();
+	}
 	friend ostream& print(ostream&, const QueryResult&);
 };
 
@@ -80,12 +93,12 @@ private:
 	string query_word;    //要查找的单词
 	WordQuery(const string &s):query_word(s){}
 	//具体的类：WordQuery将定义所有继承而来的纯虚函数
-	QueryResult eval(const TextQuery& t) const
+	QueryResult eval(const TextQuery& t) const override
 	{
 		return t.query(query_word);
 	}
 
-	string rep() const
+	string rep() const  override
 	{
 		return query_word;
 	}
@@ -102,8 +115,8 @@ class NotQuery: public Query_base
 	
 	NotQuery(const Query &q):query(q){}
 	//eval 函数比较复杂在外部定义
-	QueryResult eval(const TextQuery &t) const;
-	string rep() const
+	QueryResult eval(const TextQuery &t) const override;
+	string rep() const  override
 	{
 		return "~("+query.rep()+")";
 	}
@@ -111,7 +124,7 @@ class NotQuery: public Query_base
 
 };
 
-Query operator~(const Query &operand)
+inline Query operator~(const Query &operand)
 {
 	return shared_ptr<Query_base>(new NotQuery(operand));
 }
@@ -124,7 +137,7 @@ protected:
 
 	BinaryQuery(const Query &l, const Query &r, const string &s):
 				lsh(l), rsh(r), opSym(s){}
-	string rep() const
+	string rep() const  override
 	{
 		return "(" + lsh.rep() + " "
 			    + opSym + " " + rsh.rep() + ")"; 
@@ -136,7 +149,7 @@ class AndQuery: public BinaryQuery
 	friend Query operator&(const Query&, const Query&);
 	AndQuery(const Query& left, const Query& right):
 			BinaryQuery(left, right, "&"){}
-	QueryResult eval(const TextQuery&) const;
+	QueryResult eval(const TextQuery&) const override; 
 };
 
 inline Query operator&(const Query &left, const Query &right)
@@ -149,10 +162,11 @@ class OrQuery: public BinaryQuery
 	friend Query operator|(const Query &, const Query&);
 	OrQuery(const Query &left, const Query &right):
 			BinaryQuery(left, right, "|"){}
-	QueryResult eval(const TextQuery&) const;
+	QueryResult eval(const TextQuery&) const override;
 };
 
 inline Query operator|(const Query &left, const Query &right)
 {
 	return shared_ptr<Query_base>(new OrQuery(left, right));
 }
+
