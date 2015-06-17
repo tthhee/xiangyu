@@ -20,6 +20,7 @@ public:
 	void insert(const Comparable & X);
 	void insert(Comparable && X);  //?????????插入右值
 	void remove(const Comparable & X);
+	void printtree();
 	BinarySearchTree & operator=(const BinarySearchTree & rhs); //拷贝赋值运算符
 	BinarySearchTree & operator=(BinarySearchTree && rhs); //移动赋值运算符
 
@@ -109,7 +110,7 @@ typename BinarySearchTree<Comparable>::BinaryNode* BinarySearchTree<Comparable>:
 	
 	while(t->right != nullptr)
 	{
-		t = t-right;
+		t = t->right;
 	}
 	return t;	
 }
@@ -120,13 +121,17 @@ typename BinarySearchTree<Comparable>::BinaryNode* BinarySearchTree<Comparable>:
 template<typename Comparable>
 void BinarySearchTree<Comparable>::insert(const Comparable & X, BinaryNode * & t)
 {
-	if(t == nullptr)
+	// if(root == nullptr)
+	// {
+	// 	root = new BinaryNode(X, nullptr, nullptr);
+	// }
+    if(t == nullptr)
 	{
-		*t = new BinaryNode(X, nullptr, nullptr);
+		t = new BinaryNode(X, nullptr, nullptr);
 	}
 	else if(X > t->element)
 	{
-		insert(X, t-right);
+		insert(X, t->right);
 	}
 	else if(X < t->element)
 	{
@@ -141,11 +146,11 @@ void BinarySearchTree<Comparable>::insert(Comparable && X, BinaryNode * & t)
 {
 	if(t == nullptr)
 	{
-		*t = new BinaryNode(std::move(X), nullptr, nullptr);
+		t = new BinaryNode(std::move(X), nullptr, nullptr);
 	}
 	else if(X > t->element)
 	{
-		insert(std::move(X), t-right);
+		insert(std::move(X), t->right);
 	}
 	else if(X < t->element)
 	{
@@ -231,4 +236,44 @@ typename BinarySearchTree<Comparable>::BinaryNode* BinarySearchTree<Comparable>:
 	else
 		return new BinaryNode(std::move(t->element), clone(t->left), clone(t->right));
 }
+
+/**
+* 中序遍历
+*/
+template<typename Comparable>
+void BinarySearchTree<Comparable>::printTree(BinaryNode* & t, ostream & out) const
+{
+	if(t!=nullptr)
+	{
+		printTree(t->left, out);
+		out << t->element;
+		printTree(t->right, out);
+	}
+}
+/**
+* 前序遍历
+*/
+// template<typename Comparable>
+// void BinarySearchTree<Comparable>::printTree(BinaryNode* & t, ostream & out) const
+// {
+// 	if(t!=nullptr)
+// 	{
+// 		out << t->element;
+// 		printTree(t->left, out);
+// 		printTree(t->right, out);
+// 	}
+// }
+/**
+* 后序遍历
+*/
+// template<typename Comparable>
+// void BinarySearchTree<Comparable>::printTree(BinaryNode* & t, ostream & out) const
+// {
+// 	if(t!=nullptr)
+// 	{
+// 		printTree(t->left, out);
+// 		printTree(t->right, out);
+// 		out << t->element;
+// 	}
+// }
 #endif

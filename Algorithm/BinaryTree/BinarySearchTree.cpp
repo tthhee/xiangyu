@@ -15,7 +15,7 @@ bool BinarySearchTree<Comparable>::contains(const Comparable& X) const
 template <typename Comparable>
 void BinarySearchTree<Comparable>::insert(const Comparable & X)
 {
-	insert(X. root);
+	insert(X, root);
 }
 /**
 *	Insert X into the tree by move; duplicates are ignored
@@ -23,7 +23,7 @@ void BinarySearchTree<Comparable>::insert(const Comparable & X)
 template <typename Comparable>
 void BinarySearchTree<Comparable>::insert(Comparable && X)
 {
-	insert(std::move(X). root);
+	insert(std::move(X), root);
 }
 /**
 *	remove X from the tree
@@ -104,11 +104,24 @@ BinarySearchTree<Comparable> & BinarySearchTree<Comparable>::operator=( BinarySe
 	return *this;
 }
 
-
+template<typename Comparable>
+void BinarySearchTree<Comparable>::printtree()
+{
+	printTree(root, cout);
+}
 
 int main()
 {
 //	BinarySearchTree<int> tree;
+//	 tree.insert(3);
+	// tree.insert(1);
+	// tree.insert(4);
+	// tree.insert(6);
+	// tree.insert(9);
+	// tree.insert(2);
+	// tree.insert(5);
+	// tree.insert(7);
+//	tree.printtree();
 
 	return 0;
 }
