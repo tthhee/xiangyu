@@ -109,12 +109,62 @@ void QuickSort(vector<ElementType> & arr, int left, int right)
 
 }
 
+/**
+*利用快速排序的思想实现的快速查找第k个最小元素
+*arr为待查找的数组
+*key为要查找的元素
+*left为数组第一个元素的index
+*right为数组最后一个元素的index
+*/
+template<typename ElementType>
+ElementType QuickSelect(vector<ElementType> & arr, int k, int left, int right)
+{
+	ElementType result;
+	if(right - left >= 3)  
+	{
+		int pivot = Median3(arr, left, right);
+		int i = left;
+		int j = right-1;
+		while(1)
+		{
+			while(arr[++i] < pivot){}
+			while(arr[--j] > pivot){}
+			if(i < j)
+			{
+				swap(arr[i], arr[j]);
+			}
+			else
+				break;
+		}
+		swap(arr[i], arr[right-1]);
+		if(k-1 < i)
+		{
+			result = QuickSelect(arr, k, left, i-1);
+		}
+		else if(k-1 > i)
+		{
+			result = QuickSelect(arr, k, i+1, right);
+		}
+		else
+		{
+			result = arr[i];
+		}
+	}
+	else
+	{
+		InsertSort(arr, left, right);
+		result = arr[k-1];
+	}
 
+	return result;
+}
 int main()
 {
 	vector<int> array = { 8, 1, 4, 9, 0, 3, 5, 2, 7, 6 };
 	vector<int> & arr = array;
-	QuickSort<int>(arr, 0, 9);
+//	QuickSort<int>(arr, 0, 9);
+	int result = QuickSelect<int>(arr, 1, 0, 9);
+	cout << "第1个最小元素：" << result<< endl;
 
 	for(auto it: array)
 	{
