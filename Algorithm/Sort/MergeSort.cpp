@@ -60,9 +60,9 @@ void mergeSort(vector<Comparable> & arr, vector<Comparable> & temp, int leftbegi
 	if(leftbegin < rightend)
 	{
 		int center = (rightend + leftbegin)/2;
-		mergeSort<Comparable>(arr, temp, leftbegin, center);
-		mergeSort<Comparable>(arr, temp, center+1, rightend);
-		merge<Comparable>(arr, temp, leftbegin, center+1, rightend);
+		mergeSort(arr, temp, leftbegin, center);
+		mergeSort(arr, temp, center+1, rightend);
+		merge(arr, temp, leftbegin, center+1, rightend);
 	}
 }
 
@@ -74,14 +74,14 @@ template<typename Comparable>
 void MergeSort(vector<Comparable> & arr)
 {
 	vector<Comparable> tempArray (arr.size());
-	mergeSort<Comparable>(arr, tempArray, 0, arr.size()-1);
+	mergeSort(arr, tempArray, 0, arr.size()-1);
 }
 
 int main()
 {
 	vector<int> array = {1, 13, 24, 26, 2, 15, 27, 38};
 	clock_t start = clock();
-	MergeSort<int>(array);
+	MergeSort(array);
 	Sleep(3000);
 	clock_t end = clock();
 
