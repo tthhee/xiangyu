@@ -163,7 +163,7 @@ int main()
 	vector<int> array = { 8, 1, 4, 9, 0, 3, 5, 2, 7, 6 };
 	vector<int> & arr = array;
 //	QuickSort<int>(arr, 0, 9);
-	int result = QuickSelect<int>(arr, 1, 0, 9);
+	int result = QuickSelect(arr, 1, 0, 9);
 	cout << "第1个最小元素：" << result<< endl;
 
 	for(auto it: array)
