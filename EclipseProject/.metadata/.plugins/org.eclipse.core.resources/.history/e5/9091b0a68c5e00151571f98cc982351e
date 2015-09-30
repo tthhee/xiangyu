@@ -1,0 +1,43 @@
+package fxy.oop.server;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.util.Date;
+
+public class Response {
+	public static final String CRLF="\r\n";
+	public static final String BLANK=" ";
+	private StringBuilder Head;
+	
+	Response()
+	{
+		ResponseHead();
+	}
+	
+	private void ResponseHead()
+	{
+		Head = new StringBuilder();
+		//响应头
+		Head.append("HTTP/1.1").append(BLANK).append("200").append(BLANK).append("ok").append(CRLF);
+		Head.append("Server:Xiangyu Server/0.0.1").append(CRLF);
+		Head.append("Date:").append(new Date()).append(CRLF);
+		Head.append("Content-type:text/html;charset=GBK").append(CRLF);
+		//正文长度， 字节长度
+	}
+	
+	public void Output(Socket client, String msg) throws IOException
+	{
+		StringBuilder ResponseInfo = new StringBuilder();
+		ResponseInfo.append(Head);
+		ResponseInfo.append("Content-Length:").append(msg.getBytes().length).append(CRLF);
+		ResponseInfo.append(CRLF);
+		ResponseInfo.append(msg);
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+		bw.write(ResponseInfo.toString());
+		bw.flush();
+		bw.close();
+	}
+
+}

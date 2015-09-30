@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<servelet>
+	<name>login</name>
+	<servelet-name>fxy.oop.httpserver.demo4.LoginServelet</servelet-name>
+</servelet>
+<mapping>
+	<name>login</name>
+	<url-pattern>/login</url-pattern>
+</mapping>
+<mapping>
+	<name>login</name>
+	<url-pattern>/log</url-pattern>
+</mapping>
+<servelet>
+	<name>reg</name>
+	<servelet-name>fxy.oop.httpserver.demo4.RegisterServelet</servelet-name>
+</servelet>
+<mapping>
+	<name>reg</name>
+	<url-pattern>/reg</url-pattern>
+</mapping>

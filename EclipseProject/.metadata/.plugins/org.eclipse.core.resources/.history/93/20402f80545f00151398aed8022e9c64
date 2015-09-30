@@ -1,0 +1,56 @@
+package fxy.oop.server;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+
+public class Server3 {
+	
+	public static final String CRLF="\r\n";
+	public static final String BLANK=" ";
+	private ServerSocket server;
+	static public void main(String[] args)
+	{
+		Server3 server = new Server3();
+		server.start();
+	}
+	
+	public void start()
+	{
+		try {
+			 this.server = new ServerSocket(8888);
+			 this.receive();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void receive()
+	{
+		try {
+			Socket client = this.server.accept();
+			Request req = new Request(client.getInputStream());
+			
+			
+			StringBuilder ResponseContent = new StringBuilder();
+			Response Res = new Response(client);
+			Res.println("<html><head><title>HTTP响应示例</title></head>");
+			Res.println("<html><head><title>");
+			Res.println("欢迎：").println(req.getParameter("name")).println("回来");
+			Res.PushToClient(200);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	void stop()
+	{
+		
+	}
+}

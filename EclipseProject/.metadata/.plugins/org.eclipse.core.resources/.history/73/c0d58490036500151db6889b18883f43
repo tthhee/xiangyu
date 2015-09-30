@@ -1,0 +1,20 @@
+package fxy.oop.httpserver;
+
+public class LoginServelet extends Servelet {
+
+	@Override
+	public void doGet(Response res, Request req) throws Exception {
+		// TODO Auto-generated method stub
+		res.println("<html><head><title>欢迎回来</title></head>");
+		res.println("<body>");
+		res.println("欢迎：").println(req.getParameter("uname")).println("回来");
+		res.println("</body></html>");
+	}
+
+	@Override
+	public void doPost(Response res, Request req) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

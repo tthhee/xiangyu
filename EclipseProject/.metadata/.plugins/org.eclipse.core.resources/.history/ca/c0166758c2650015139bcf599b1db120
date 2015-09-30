@@ -1,0 +1,134 @@
+package fxy.oop.httpserver.demo4;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class WebHandler extends DefaultHandler{
+
+	private List<Entity> entityList;
+	private List<Mapping> mappingList;
+	private Entity entity;
+	private Mapping mapping;
+	private String beginTag;
+	boolean isMap;
+	@Override
+	public void startDocument() throws SAXException {
+		//开始文档解析
+		entityList = new ArrayList<Entity>();
+		mappingList = new ArrayList<Mapping>();
+		beginTag = null;
+		isMap = false;
+	}
+	
+	@Override
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		//开始元素解析
+		if(null != qName)
+		{
+			beginTag = qName;
+			if(qName.equals("servelet"))
+			{
+				entity = new Entity();
+				isMap = false;
+			}else if(qName.equals("servelet-mapping"))
+			{
+				mapping = new Mapping();
+				isMap = true;
+			}
+		}
+	}
+	
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		//字符提取
+		String str = new String(ch, start, length);
+		if(!isMap)
+		{
+			if(beginTag.equals("servelet-name"))
+			{
+				entity.setName(str);
+			}else if(beginTag.equals("servelet-class"))
+			{
+				entity.setClz(str);
+			}
+		}else if(isMap)
+		{
+			if(beginTag.equals("servelet-name"))
+			{
+				mapping.setName(str);
+			}else if(beginTag.equals("url-pattern"))
+			{
+				mapping.getPattern().add(str);
+			}
+		}
+		
+	}
+	
+
+	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		//结束元素解析
+		if(qName != null)
+		{
+			if(qName.equals("servelet"))
+			{
+				entityList.add(entity);
+			}else if(qName.equals("servelet-mapping"))
+			{
+				mappingList.add(mapping);
+			}
+			
+		}
+		beginTag = null;
+	}
+
+
+
+	@Override
+	public void endDocument() throws SAXException {
+		//结束文档解析
+	}
+
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException
+	{
+		//获取解析工厂
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		//获取解析器
+		SAXParser sax = factory.newSAXParser();
+		//指定xml的
+		WebHandler web = new WebHandler();
+		sax.parse(Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("fxy/oop/httpserver/demo4/web.xml"), web);
+		
+		web.getEntityList();
+		web.getMappingList();
+	}
+
+	public List<Entity> getEntityList() {
+		return entityList;
+	}
+
+	public void setEntityList(List<Entity> entityList) {
+		this.entityList = entityList;
+	}
+
+	public List<Mapping> getMappingList() {
+		return mappingList;
+	}
+
+	public void setMappingList(List<Mapping> mappingList) {
+		this.mappingList = mappingList;
+	}
+
+	
+
+}

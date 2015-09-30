@@ -1,0 +1,5 @@
+package fxy.oop.server;
+
+public class Dispatcher {
+
+}

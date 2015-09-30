@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;CloseUtil.java&apos; to &apos;MyServer/src/fxy.oop.server.util&apos;&#x0D;&#x0A;- Original project: &apos;HttpServer&apos;&#x0D;&#x0A;- Destination element: &apos;MyServer/src/fxy.oop.server.util&apos;&#x0D;&#x0A;- Original element: &apos;fxy.oop.server.CloseUtil.java&apos;" description="Copy compilation unit" destination="=MyServer/src&lt;fxy.oop.server.util" element1="/src&lt;fxy.oop.server{CloseUtil.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1442639389495" units="1" version="1.0"/>
+</session>

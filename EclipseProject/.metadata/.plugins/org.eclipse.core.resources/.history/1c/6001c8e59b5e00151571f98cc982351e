@@ -1,0 +1,93 @@
+package fxy.oop.server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Request {
+	
+	public static final String CRLF = "\r\n";
+	//请求方式
+	private String method;
+	//请求资源
+	private String url;
+	//请求参数
+	private Map<String, List<String>> parameterMapValues;
+	
+	private InputStream is;
+	//请求信息
+	private String RequestInfo;
+	
+	private Request()
+	{
+		method = "";
+		url = "";
+		parameterMapValues = new HashMap<String, List<String>>();
+		RequestInfo = "";
+	}
+	public Request(InputStream is)
+	{
+		this();
+		this.is = is;
+		
+		try {
+			byte[] data = new byte[20480];
+			int len;
+			len = is.read(data);
+			RequestInfo = new String(data, 0, len);
+		} catch (IOException e) {
+			return;
+		}
+		//分析请求信息
+		parseRequestInfo();
+	}
+	/*
+	 * ===================================
+	 * 分析请求信息
+	 * 
+	 */
+	public void parseRequestInfo()
+	{
+		if(null == RequestInfo || (RequestInfo.trim().equals("")))
+		{
+			return;
+		}
+		 /* ================================
+		 * 从信息的首行分解出：请求方式， 请求路径， 请求参数（get可能存在）
+		 * 如：GET /index.html?name=123&pwd=5456 HTTP/1.1
+		 * =================================
+		 */
+		String parameter = "";
+		String firstline = RequestInfo.substring(0, RequestInfo.indexOf(CRLF));
+		int index = firstline.indexOf("/");
+		this.method = firstline.substring(0, index).trim();
+		String urlStr = firstline.substring(index, firstline.indexOf("HTTP/")).trim();
+		if(this.method.equals("post"))
+		{
+			this.url = urlStr;
+			parameter = RequestInfo.substring(RequestInfo.lastIndexOf(CRLF));
+		}else if(this.method.equals("get"))
+		{
+			if(urlStr.contains("?"))
+			{
+				String[] urlArray = urlStr.split("\\?");
+				this.url = urlArray[0];
+				parameter = urlArray[1];
+				
+			}
+			else
+			{
+				this.url = urlStr;
+			}
+		}
+		
+		//将请求参数封装到Map中
+	//	this.parameterMapValues
+		
+	}
+}

@@ -1,0 +1,32 @@
+package fxy.oop.httpserver.demo3;
+
+import java.util.Map;
+
+public class WebApp {
+	
+	public static ServeletContext context;
+	
+	static{
+		context = new ServeletContext();
+		Map<String, String> mapping = context.getMapping();
+		mapping.put("/login", "login");
+		mapping.put("/log", "login");
+		mapping.put("/reg", "register");
+		
+		Map<String, Servelet> servelet = context.getServelet();
+		servelet.put("login", new LoginServelet());
+		servelet.put("register", new RegisterServelet());
+	}
+	
+	public static Servelet getServelet(String url)
+	{
+		if(null==url || url.trim().equals(""))
+		{
+			return null;
+		}
+		else
+			return context.getServelet().get(context.getMapping().get(url));
+		
+	}
+
+}
