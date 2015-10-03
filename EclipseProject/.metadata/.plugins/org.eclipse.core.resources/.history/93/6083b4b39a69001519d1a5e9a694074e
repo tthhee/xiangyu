@@ -1,0 +1,138 @@
+package fxy.oop.server;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class WebHandler extends DefaultHandler{
+
+	private List<Entity> entityList;
+	private List<Mapping> mappingList;
+	private Entity entity;
+	private Mapping mapping;
+	private String beginTag;
+	boolean isMap;
+	@Override
+	public void startDocument() throws SAXException {
+		//��ʼ�ĵ�����
+	//	System.out.println("��ʼ�����ĵ�");
+		entityList = new ArrayList<Entity>();
+		mappingList = new ArrayList<Mapping>();
+		beginTag = null;
+		isMap = false;
+	}
+	
+	@Override
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		//��ʼԪ�ؽ���
+	//	System.out.println("��ʼԪ�ؽ���");
+		if(null != qName)
+		{
+			beginTag = qName;
+			if(qName.equals("servelet"))
+			{
+				entity = new Entity();
+				isMap = false;
+			}else if(qName.equals("servelet-mapping"))
+			{
+				mapping = new Mapping();
+				isMap = true;
+			}
+		}
+	}
+	
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		//�ַ���ȡ
+	//	System.out.println("�ַ���ȡ");
+		String str = new String(ch, start, length);
+		if(!isMap)
+		{
+			if(beginTag != null && beginTag.equals("servelet-name"))
+			{
+				entity.setName(str);
+			}else if(beginTag != null && beginTag.equals("servelet-class"))
+			{
+				entity.setClz(str);
+			}
+		}else if(isMap)
+		{
+			if(beginTag != null && beginTag.equals("servelet-name"))
+			{
+				mapping.setName(str);
+			}else if(beginTag != null && beginTag.equals("url-pattern"))
+			{
+				mapping.getPattern().add(str);
+			}
+		}
+		
+	}
+	
+
+	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		//����Ԫ�ؽ���
+	//	System.out.println("����Ԫ�ؽ���");
+		if(qName != null)
+		{
+			if(qName.equals("servelet"))
+			{
+				entityList.add(entity);
+			}else if(qName.equals("servelet-mapping"))
+			{
+				mappingList.add(mapping);
+			}
+			
+		}
+		beginTag = null;
+	}
+
+
+
+	@Override
+	public void endDocument() throws SAXException {
+		//�����ĵ�����
+	}
+
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException
+	{
+		//��ȡ��������
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		//��ȡ������
+		SAXParser sax = factory.newSAXParser();
+		//ָ��xml��
+		WebHandler web = new WebHandler();
+		sax.parse(Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("fxy/oop/httpserver/demo4/web.xml"), web);
+		
+	//	System.out.println(web.getEntityList());
+		
+	}
+
+	public List<Entity> getEntityList() {
+		return entityList;
+	}
+
+	public void setEntityList(List<Entity> entityList) {
+		this.entityList = entityList;
+	}
+
+	public List<Mapping> getMappingList() {
+		return mappingList;
+	}
+
+	public void setMappingList(List<Mapping> mappingList) {
+		this.mappingList = mappingList;
+	}
+
+	
+
+}

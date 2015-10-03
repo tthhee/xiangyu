@@ -51,4 +51,5 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javax.xml.parsers.SAXParserFactory"/>
 <fullyQualifiedTypeName name="javax.xml.parsers.SAXParser"/>
+<fullyQualifiedTypeName name="fxy.oop.serverUtil.CloseUtil"/>
 </qualifiedTypeNameHistroy>

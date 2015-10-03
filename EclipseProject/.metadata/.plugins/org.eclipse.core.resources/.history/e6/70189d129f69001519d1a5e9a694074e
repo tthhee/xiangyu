@@ -1,0 +1,20 @@
+package fxy.oop.servelet;
+
+import fxy.oop.server.Request;
+import fxy.oop.server.Response;
+
+public abstract class Servelet {
+	public  void service(Response res, Request req) throws Exception
+	{
+//		res.println("<html><head><title>HTTP��Ӧʾ��</title></head>");
+//		res.println("<body>");
+//		res.println("��ӭ��").println(req.getParameter("uname")).println("����");
+//		res.println("</body></html>");
+		this.doGet(res,req);
+		this.doPost(res,req);
+	}
+	
+	public abstract void doGet(Response res, Request req) throws Exception;
+	public abstract void doPost(Response res, Request req) throws Exception;
+
+}
